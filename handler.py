@@ -24,6 +24,30 @@ def index():
               <br>
               </div>'''
 
+@app.route('/destiny')
+def destiny():
+    return '''<!DOCTYPE html>
+              <html lang="en">
+              <head>
+              <title>Destiny</title>
+              <style>
+              table,th,td {
+                               border: 1px solid black;
+                               border-collapse: collapse;
+                               padding: 3px;
+                               text-align: center
+                               }
+              td {text-align: left}
+              </style>
+              </head>
+              <body>
+              <div id="header">
+              <h1>Star Wars Destiny</h1>
+              <br>
+              </div>
+              </body>
+              </html>'''
+
 @app.route('/user/<name>')
 def user(name):
     return "<h1>Hello, %s</h1>" % name
