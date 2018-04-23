@@ -1,4 +1,5 @@
 from flask import Flask,Response
+import sqlite3
 app = Flask(__name__)
 
 @app.route('/')
@@ -45,8 +46,26 @@ def destiny():
               <h1>Star Wars Destiny</h1>
               <br>
               </div>
+              <div id="reports">
+              <h4>Reports</h4>
+              <table>
+              <tr><td>Compatible with Villains, Command</td><td><a href="/destiny/reports/villain_command_compatible">HTML</a></td></tr>   
+              </table>
+              </div>
               </body>
               </html>'''
+
+@app.route('/destiny/reports/<report>')
+def reports(report):
+    conn = sqlite3.connect('./destiny.db')
+    c = conn.cursor()
+    c.execute('''Select cardsetcode, position, name, typename, affiliation,
+                 factioncode, isunique, raritycode, ccost, csides,
+                 imgsrc from card
+                 where (affiliation = "Villain" or affiliation = "Neutral" )
+                        and (faction = "Command" or faction = "General")''')
+    result = c.fetchall()
+    return str(result)
 
 @app.route('/user/<name>')
 def user(name):
