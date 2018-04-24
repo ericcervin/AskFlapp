@@ -50,6 +50,7 @@ def destiny():
               <h4>Reports</h4>
               <table>
               <tr><td>Compatible with Villains, Command</td><td><a href="/destiny/reports/villain_command_compatible">HTML</a></td></tr>   
+              <tr><td>Count by Affiliation/Faction</td><td><a href="/destiny/reports/affiliation_faction_count">HTML</a></td></tr>
               </table>
               </div>
               </body>
@@ -57,14 +58,25 @@ def destiny():
 
 @app.route('/destiny/reports/<report>')
 def reports(report):
-    conn = sqlite3.connect('./destiny.db')
-    c = conn.cursor()
-    c.execute('''Select cardsetcode, position, name, typename, affiliation,
+    
+    report_dict = {
+        "villain_command_compatible" :
+              '''Select cardsetcode, position, name, typename, affiliation,
                  factioncode, isunique, raritycode, ccost, csides,
                  imgsrc from card
                  where (affiliation = "Villain" or affiliation = "Neutral" )
-                        and (faction = "Command" or faction = "General")''')
-    result = c.fetchall()
+                 and (faction = "Command" or faction = "General")''',
+         "affiliation_faction_count" :
+              '''Select affiliation, faction, count(*) as count from card group by affiliation, faction'''
+        
+        }
+    if report in report_dict:
+        conn = sqlite3.connect('./destiny.db')
+        c = conn.cursor()
+        c.execute(report_dict[report])
+        result = c.fetchall()
+    else:
+        result = "Invalid report name"
     return str(result)
 
 @app.route('/user/<name>')
