@@ -1,5 +1,6 @@
 from flask import Flask,Response
 import sqlite3
+import pystache
 app = Flask(__name__)
 
 @app.route('/')
@@ -56,6 +57,13 @@ def destiny():
               </body>
               </html>'''
 
+report_template = '''<html><head></head><body><table>
+                     {{#results}}
+                     <tr>{{#result}}<td>{{.}}</td>{{/result}}</tr>
+                     {{/results}}
+                     </table></body></html>
+                     '''
+
 @app.route('/destiny/reports/<report>')
 def reports(report):
     
@@ -74,10 +82,14 @@ def reports(report):
         conn = sqlite3.connect('./destiny.db')
         c = conn.cursor()
         c.execute(report_dict[report])
-        result = c.fetchall()
+        all_results = c.fetchall()
+        print(type(c.fetchall()))
+        all_results = list(map(lambda x: {"result": x}, all_results))
     else:
-        result = "Invalid report name"
-    return str(result)
+        all_results = "Invalid report name"
+    all_results = {"results": all_results}
+    return pystache.render(report_template,all_results)
+        
 
 @app.route('/user/<name>')
 def user(name):
