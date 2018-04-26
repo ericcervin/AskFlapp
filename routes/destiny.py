@@ -24,6 +24,7 @@ def root():
               <table>
               <tr><td>Compatible with Villains, Command</td><td><a href="/destiny/reports/villain_command_compatible">HTML</a></td></tr>   
               <tr><td>Count by Affiliation/Faction</td><td><a href="/destiny/reports/affiliation_faction_count">HTML</a></td></tr>
+              <tr><td>Count by Rarity</td><td><a href="/destiny/reports/rarity_count">HTML</a></td></tr>
               </table>
               </div>
               </body>
@@ -37,29 +38,38 @@ report_template = '''<html><head>
                                text-align: center
                                }
                              td {text-align: left}</style>
-                     </head><body><table>
+                     </head><body>
+                     <div id="report">
+                     <table id = \"id_card_table\">
+                     <thead>
+                     <tr>{{#header}}<th>{{{.}}}</th>{{/header}}</tr>
+                     </thead>
+                     <tbody>
                      {{#results}}
                      <tr>{{#result}}<td>{{.}}</td>{{/result}}</tr>
                      {{/results}}
+                     </tbody>
                      </table></body></html>
                      '''
 def reports(report):
     
     report_dict = {
         "villain_command_compatible" :
-              '''Select cardsetcode, position, name, typename, affiliation,
+              {"query" : '''Select cardsetcode, position, name, typename, affiliation,
                  factioncode, isunique, raritycode, ccost, csides,
                  imgsrc from card
                  where (affiliation = "Villain" or affiliation = "Neutral" )
-                 and (faction = "Command" or faction = "General")''',
+                 and (faction = "Command" or faction = "General")'''},
          "affiliation_faction_count" :
-              '''Select affiliation, faction, count(*) as count from card group by affiliation, faction'''
+              {"query" : '''Select affiliation, faction, count(*) as count from card group by affiliation, faction'''},
+        "rarity_count":
+              {"query" : '''Select rarity, count(*) as count from card group by rarity'''}
         
         }
     if report in report_dict:
         conn = sqlite3.connect('./resources/destiny.db')
         c = conn.cursor()
-        c.execute(report_dict[report])
+        c.execute(report_dict[report]["query"])
         all_results = c.fetchall()
         print(type(c.fetchall()))
         all_results = list(map(lambda x: {"result": x}, all_results))
