@@ -27,7 +27,8 @@ def index():
               </div>'''
 
 app.add_url_rule('/destiny','destiny_root',destiny.root)
-app.add_url_rule('/destiny/reports/<report>','destiny_reports',destiny.reports)        
+app.add_url_rule('/destiny/reports/<report>','destiny_reports',destiny.reports)
+app.add_url_rule('/destiny/cards','destiny_cards',destiny.cards) 
 
 @app.route('/robots.txt')
 def robots():

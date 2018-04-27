@@ -1,4 +1,5 @@
 import sqlite3,pystache
+from flask import request
 def root():
     return '''<!DOCTYPE html>
               <html lang="en">
@@ -52,6 +53,18 @@ report_template = '''<html><head>
                      </tbody>
                      </table></body></html>
                      '''
+
+def cards():
+    affil = request.args.get("affil")
+    fact =  request.args.get("fact")
+    select_fields = "cardsetcode, position, name, typename, isunique, raritycode, affiliation, factioncode, cminpoints, cmaxpoints, chealth, csides,imgsrc"
+    select_from_clauses = "Select " + select_fields + " from card"
+    if      (affil is None) and (fact is None): qry_string = select_from_clauses
+    elif    (affil is None) and (fact is not None): qry_string = select_from_clauses + " where faction = \"" + fact + "\""
+    elif    (affil is not None) and (fact is None): qry_string = select_from_clauses + " where affiliation = \"" + affil + "\""
+    else:    qry_string = select_from_clauses + " where affiliation = \"" + affil + "\" and faction = \"" + fact + "\""
+    return pystache.render("{{affil}}\t{{fact}}\t{{qry}}",{"affil": affil, "fact": fact,"qry": qry_string})
+
 def reports(report):
     
     report_dict = {
