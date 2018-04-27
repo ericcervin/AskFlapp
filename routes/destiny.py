@@ -25,6 +25,7 @@ def root():
               <tr><td>Compatible with Villains, Command</td><td><a href="/destiny/reports/villain_command_compatible">HTML</a></td></tr>   
               <tr><td>Count by Affiliation/Faction</td><td><a href="/destiny/reports/affiliation_faction_count">HTML</a></td></tr>
               <tr><td>Count by Rarity</td><td><a href="/destiny/reports/rarity_count">HTML</a></td></tr>
+              <tr><td>Count by Set</td><td><a href="/destiny/reports/set_count">HTML</a></td></tr>
               </table>
               </div>
               </body>
@@ -42,7 +43,7 @@ report_template = '''<html><head>
                      <div id="report">
                      <table id = \"id_card_table\">
                      <thead>
-                     <tr>{{#header}}<th>{{{.}}}</th>{{/header}}</tr>
+                     <tr>{{#header}}<th>{{.}}</th>{{/header}}</tr>
                      </thead>
                      <tbody>
                      {{#results}}
@@ -54,16 +55,23 @@ report_template = '''<html><head>
 def reports(report):
     
     report_dict = {
-        "villain_command_compatible" :
-              {"query" : '''Select cardsetcode, position, name, typename, affiliation,
-                 factioncode, isunique, raritycode, ccost, csides,
-                 imgsrc from card
-                 where (affiliation = "Villain" or affiliation = "Neutral" )
-                 and (faction = "Command" or faction = "General")'''},
+        
          "affiliation_faction_count" :
-              {"query" : '''Select affiliation, faction, count(*) as count from card group by affiliation, faction'''},
-        "rarity_count":
-              {"query" : '''Select rarity, count(*) as count from card group by rarity'''}
+              {"header": ["Affilliation", "Faction", "Count"],
+               "query" : '''Select affiliation, faction, count(*) as count from card group by affiliation, faction'''},
+         "rarity_count":
+              {"header": ["Rarity", "Count"],
+                "query" : '''Select rarity, count(*) as count from card group by rarity'''},
+         "set_count": 
+                {"header": ["Set", "Count"], 
+                 "query":  '''Select cardset, count(*) as count from card group by cardset'''},
+         "villain_command_compatible" :
+              {"header": ["Set","Pos","Name","Type","Affilliation","Faction","Is Unique","Rarity","Cost","Sides","Image"],
+               "query" : '''Select cardsetcode, position, name, typename, affiliation,
+                            factioncode, isunique, raritycode, ccost, csides, imgsrc
+                            from card
+                            where (affiliation = "Villain" or affiliation = "Neutral" )
+                            and (faction = "Command" or faction = "General")'''}
         
         }
     if report in report_dict:
@@ -73,7 +81,9 @@ def reports(report):
         all_results = c.fetchall()
         print(type(c.fetchall()))
         all_results = list(map(lambda x: {"result": x}, all_results))
+        header = report_dict[report].get("header","")
     else:
         all_results = "Invalid report name"
-    all_results = {"results": all_results}
+        header = ""
+    all_results = {"header":header, "results": all_results}
     return pystache.render(report_template,all_results)
