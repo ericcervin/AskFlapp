@@ -21,10 +21,20 @@ def index():
               <div id="header">
               <h1>Eric Ervin Dot Com</h1>
               <p>A toy website to release some Python into the world.</p>
-  
               <p><a href="https://github.com/ericcervin/AskFlapp">https://github.com/ericcervin/AskFlapp</a></p>
+              <p>There is a (twin) sister site written in Clojure: <a href = "http://ericervin.org">http://ericervin.org</a>
               <br>
-              </div>'''
+              </div>
+              <div id="resources">
+              <table>
+              <thead><tr><th scope="col">Resource</th><th scope="col">Description</th><th scope="col">Data Updated</th></tr></thead>
+              <tbody>
+              <tr><td><a href="/destiny">Destiny</a></td><td>Star Wars Destiny card game data</td><td>04/16/2018</td></tr>
+              </tbody>
+              </table>
+              </div>
+              </html>
+              '''
 
 app.add_url_rule('/destiny','destiny_root',destiny.root)
 app.add_url_rule('/destiny/reports/<report>','destiny_reports',destiny.reports)

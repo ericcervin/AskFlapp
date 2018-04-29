@@ -34,6 +34,7 @@ def root():
               </html>'''
 
 report_template = '''<html><head>
+                     <title>Destiny</title>
                      <style>table,th,td {
                                border: 1px solid black;
                                border-collapse: collapse;
