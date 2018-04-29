@@ -20,6 +20,48 @@ def root():
               <h1>Star Wars Destiny</h1>
               <br>
               </div>
+              <div id="cards">
+              <table>
+              <thead>
+              <tr><th><th><th colspan="4">Affiliation</th></tr>
+              <tr><th></th><th></th><th scope="col">All</th><th scope="col">Villain</th><th scope="col">Hero</th><th scope="col">Neutral</th></tr></thead>
+              <tbody>
+              <tr><th rowspan="5">Faction</th><th scope="row">All</th><td><a href="/destiny/cards?">HTML</a></td><td><a href="/destiny/cards?affil=Villain">HTML</a></td><td><a href="/destiny/cards?affil=Hero">HTML</a></td><td><a href="/destiny/cards?affil=Neutral">HTML</a></td></tr>
+              <tr>
+
+              <th scope="row">Command</th>
+              <td><a href="/destiny/cards?fact=Command">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Villain&fact=Command">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Hero&fact=Command">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Neutral&fact=Command">HTML</a></td>
+              </tr>
+              <tr>
+
+              <th scope="row">Force</th>
+              <td><a href="/destiny/cards?fact=Force">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Villain&fact=Force">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Hero&fact=Force">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Neutral&fact=Force">HTML</a></td>
+              </tr>
+              <tr>
+
+              <th scope="row">Rogue</th>
+              <td><a href="/destiny/cards?fact=Rogue">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Villain&fact=Rogue">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Hero&fact=Rogue">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Neutral&fact=Rogue">HTML</a></td>
+              </tr>
+              <tr>
+
+              <th scope="row">General</th>
+              <td><a href="/destiny/cards?fact=General">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Villain&fact=General">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Hero&fact=General">HTML</a></td>
+              <td><a href="/destiny/cards?affil=Neutral&fact=General">HTML</a></td>
+              </tr>
+              </tbody>
+              </table>
+              </div>
               <div id="reports">
               <h4>Reports</h4>
               <table>
@@ -35,13 +77,17 @@ def root():
 
 report_template = '''<html><head>
                      <title>Destiny</title>
-                     <style>table,th,td {
+                     <style>
+                     table,th,td {
                                border: 1px solid black;
                                border-collapse: collapse;
+                               font-size: small;
                                padding: 3px;
                                text-align: center
                                }
-                             td {text-align: left}</style>
+                               td {text-align: left}
+                     </style>
+                     </head>
                      </head><body>
                      <div id="report">
                      <table id = \"id_card_table\">
@@ -71,12 +117,16 @@ def cards():
     fact =  request.args.get("fact")
     select_fields = "cardsetcode, position, name, typename, isunique, raritycode, affiliation, factioncode, cminpoints, cmaxpoints, chealth, csides,imgsrc"
     select_from_clauses = "Select " + select_fields + " from card"
+
     if      (affil is None) and (fact is None): qry_string = select_from_clauses
     elif    (affil is None) and (fact is not None): qry_string = select_from_clauses + " where faction = \"" + fact + "\""
     elif    (affil is not None) and (fact is None): qry_string = select_from_clauses + " where affiliation = \"" + affil + "\""
     else:    qry_string = select_from_clauses + " where affiliation = \"" + affil + "\" and faction = \"" + fact + "\""
-    #return pystache.render("{{affil}}\t{{fact}}\t{{qry}}",{"affil": affil, "fact": fact,"qry": qry_string})
-    return qry_html({"header":"","query":qry_string})
+
+    header = ["Set", "Pos", "Name", "Type", "Unique", "Rarity", "Affil", "Faction", 
+              "Min<br>Cost", "Max<br>Cost", "Health", "Sides", "Img Source"]
+    
+    return qry_html({"header":header,"query":qry_string})
 
 def reports(report):
     
