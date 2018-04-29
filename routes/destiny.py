@@ -27,6 +27,7 @@ def root():
               <tr><td>Count by Affiliation/Faction</td><td><a href="/destiny/reports/affiliation_faction_count">HTML</a></td></tr>
               <tr><td>Count by Rarity</td><td><a href="/destiny/reports/rarity_count">HTML</a></td></tr>
               <tr><td>Count by Set</td><td><a href="/destiny/reports/set_count">HTML</a></td></tr>
+              <tr><td>Highest Cost Support/Event/Upgrade</td><td><a href="/destiny/reports/high_cost">HTML</a></td></tr>
               </table>
               </div>
               </body>
@@ -54,6 +55,16 @@ report_template = '''<html><head>
                      </table></body></html>
                      '''
 
+def qry_html(qry_dict):
+        conn = sqlite3.connect('./resources/destiny.db')
+        c = conn.cursor()
+        c.execute(qry_dict["query"])
+        all_results = c.fetchall()
+        all_results = list(map(lambda x: {"result": x}, all_results))
+        header = qry_dict["header"]
+        all_results = {"header":header, "results": all_results}
+        return pystache.render(report_template,all_results)
+    
 def cards():
     affil = request.args.get("affil")
     fact =  request.args.get("fact")
@@ -63,7 +74,8 @@ def cards():
     elif    (affil is None) and (fact is not None): qry_string = select_from_clauses + " where faction = \"" + fact + "\""
     elif    (affil is not None) and (fact is None): qry_string = select_from_clauses + " where affiliation = \"" + affil + "\""
     else:    qry_string = select_from_clauses + " where affiliation = \"" + affil + "\" and faction = \"" + fact + "\""
-    return pystache.render("{{affil}}\t{{fact}}\t{{qry}}",{"affil": affil, "fact": fact,"qry": qry_string})
+    #return pystache.render("{{affil}}\t{{fact}}\t{{qry}}",{"affil": affil, "fact": fact,"qry": qry_string})
+    return qry_html({"header":"","query":qry_string})
 
 def reports(report):
     
@@ -72,6 +84,11 @@ def reports(report):
          "affiliation_faction_count" :
               {"header": ["Affilliation", "Faction", "Count"],
                "query" : '''Select affiliation, faction, count(*) as count from card group by affiliation, faction'''},
+         "high_cost" :
+              {"header": ["Set", "Pos", "Name", "Type", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
+               "query": '''Select cardsetcode, position, name, typename, isunique, raritycode, ccost, csides, imgsrc
+                                        from card where ccost is not null 
+                                        order by ccost desc'''},
          "rarity_count":
               {"header": ["Rarity", "Count"],
                 "query" : '''Select rarity, count(*) as count from card group by rarity'''},
@@ -88,15 +105,9 @@ def reports(report):
         
         }
     if report in report_dict:
-        conn = sqlite3.connect('./resources/destiny.db')
-        c = conn.cursor()
-        c.execute(report_dict[report]["query"])
-        all_results = c.fetchall()
-        print(type(c.fetchall()))
-        all_results = list(map(lambda x: {"result": x}, all_results))
-        header = report_dict[report].get("header","")
+        return qry_html(report_dict[report])
     else:
-        all_results = "Invalid report name"
-        header = ""
-    all_results = {"header":header, "results": all_results}
-    return pystache.render(report_template,all_results)
+        return "<HTML><HEAD></HEAD><BODY>Invalid report name</BODY>"
+        
+    
+    
