@@ -70,6 +70,7 @@ def root():
               <tr><td>Count by Rarity</td><td><a href="/destiny/reports/rarity_count">HTML</a></td></tr>
               <tr><td>Count by Set</td><td><a href="/destiny/reports/set_count">HTML</a></td></tr>
               <tr><td>Highest Cost Support/Event/Upgrade</td><td><a href="/destiny/reports/high_cost">HTML</a></td></tr>
+              <tr><td>Rarity Legendary Cards</td><td><a href="/destiny/reports/legendary">HTML</a></td></tr>
               </table>
               </div>
               </body>
@@ -140,6 +141,11 @@ def reports(report):
                "query": '''Select cardsetcode, position, name, typename, isunique, raritycode, ccost, csides, imgsrc
                                         from card where ccost is not null 
                                         order by ccost desc'''},
+         "legendary": 
+           {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
+            "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, ccost, csides, imgsrc 
+                                        from card where rarity = "Legendary"''' 
+           },
          "rarity_count":
               {"header": ["Rarity", "Count"],
                 "query" : '''Select rarity, count(*) as count from card group by rarity'''},
