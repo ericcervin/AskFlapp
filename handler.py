@@ -1,6 +1,6 @@
 from flask import Flask,Response
 import sqlite3, pystache
-from routes import destiny, powerball
+from routes import destiny, powerball, serialism
 app = Flask(__name__)
 
 @app.route('/')
@@ -31,6 +31,7 @@ def index():
               <tbody>
               <tr><td><a href="/destiny">Destiny</a></td><td>Star Wars Destiny card game data</td><td>04/16/2018</td></tr>
               <tr><td><a href="/powerball">Powerball</a></td><td>A source for Powerball numbers to play</td><td>N/A</td></tr>
+              <tr><td><a href="/serialism">Serialism</a></td><td>Toying with set theory</td><td>N/A</td></tr>
               </tbody>
               </table>
               </div>
@@ -43,6 +44,8 @@ app.add_url_rule('/destiny/cards','destiny_cards',destiny.cards)
 
 app.add_url_rule('/powerball','powerball_root',powerball.root)
 app.add_url_rule('/powerball/html','powerball_res_html',powerball.res_html)
+
+app.add_url_rule('/serialism','serialism_root',serialism.root)
 
 @app.route('/robots.txt')
 def robots():
