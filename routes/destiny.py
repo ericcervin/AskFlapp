@@ -73,6 +73,7 @@ def root():
               <tr><td>Rarity Legendary Cards</td><td><a href="/destiny/reports/legendary">HTML</a></td></tr>
               <tr><td>Rarity Rare Cards</td><td><a href="/destiny/reports/rare">HTML</a></td></tr>
               <tr><td>Type Character Cards</td><td><a href="/destiny/reports/type_character">HTML</a></td></tr>
+              <tr><td>Type Upgrade Cards</td><td><a href="/destiny/reports/type_upgrade">HTML</a></td></tr>
               </table>
               </div>
               </body>
@@ -163,6 +164,10 @@ def reports(report):
                 {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "MinPoints", "MaxPoints", "Health", "Sides", "Image"], 
                  "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, cminpoints, cmaxpoints, chealth, csides,
                               imgsrc from card where typename = "Character"'''},
+         "type_upgrade":
+                {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
+                 "query" : '''Select cardsetcode, position, name, typename, affiliation, faction, isunique, raritycode, ccost, csides, imgsrc 
+                  from card where typename = "Upgrade"'''},
          "villain_command_compatible" :
               {"header": ["Set","Pos","Name","Type","Affilliation","Faction","Is Unique","Rarity","Cost","Sides","Image"],
                "query" : '''Select cardsetcode, position, name, typename, affiliation,
