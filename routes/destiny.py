@@ -72,6 +72,7 @@ def root():
               <tr><td>Highest Cost Support/Event/Upgrade</td><td><a href="/destiny/reports/high_cost">HTML</a></td></tr>
               <tr><td>Rarity Legendary Cards</td><td><a href="/destiny/reports/legendary">HTML</a></td></tr>
               <tr><td>Rarity Rare Cards</td><td><a href="/destiny/reports/rare">HTML</a></td></tr>
+              <tr><td>Type Character Cards</td><td><a href="/destiny/reports/type_character">HTML</a></td></tr>
               </table>
               </div>
               </body>
@@ -158,6 +159,10 @@ def reports(report):
          "set_count": 
                 {"header": ["Set", "Count"], 
                  "query":  '''Select cardset, count(*) as count from card group by cardset'''},
+         "type_character":
+                {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "MinPoints", "MaxPoints", "Health", "Sides", "Image"], 
+                 "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, cminpoints, cmaxpoints, chealth, csides,
+                              imgsrc from card where typename = "Character"'''},
          "villain_command_compatible" :
               {"header": ["Set","Pos","Name","Type","Affilliation","Faction","Is Unique","Rarity","Cost","Sides","Image"],
                "query" : '''Select cardsetcode, position, name, typename, affiliation,
