@@ -18,7 +18,7 @@ def root():
             </head>
             <body>
             <div id="header">
-            <h3>Powerball</h3>
+            <h1>Powerball</h1>
             <p>Two sets of Powerball numbers</p>
             </div>
             <div id="numbers">
