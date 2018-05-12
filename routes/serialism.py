@@ -18,7 +18,7 @@ def root():
             </head>
             <body>
             <div id="header">
-            <h3>Serialism</h3>
+            <h1>Serialism</h1>
             <p>Rows and rows of numbers</p>
             </div>
             <div id="numbers">
@@ -35,28 +35,28 @@ def root():
             </html>'''
 
 serialism_result_template = '''
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>  
-      <style> table,th,td {
-         border: 1px solid black;
-         border-collapse: collapse;
-         padding: 3px;
-         text-align: center;}
-         td {text-align: left}
-      </style>
-      <title>Serialism</title>
-    </head>
-    <body>
-      <table>
-        <tbody>
-          <tr><th>P0</th>{{#p0}}<td>{{.}}</td>{{/p0}}</tr>
-          <tr><th>R0</th>{{#r0}}<td>{{.}}</td>{{/r0}}</tr>
-          <tr><th>I0</th>{{#i0}}<td>{{.}}</td>{{/i0}}</tr>
-          <tr><th>RI0</th>{{#ri0}}<td>{{.}}</td>{{/ri0}}</tr>
-        </tbody>
-      </table>
-    </body>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>  
+      <style> table,th,td {
+         border: 1px solid black;
+         border-collapse: collapse;
+         padding: 3px;
+         text-align: center;}
+         td {text-align: left}
+      </style>
+      <title>Serialism</title>
+    </head>
+    <body>
+      <table>
+        <tbody>
+          <tr><th>P0</th>{{#p0}}<td>{{.}}</td>{{/p0}}</tr>
+          <tr><th>R0</th>{{#r0}}<td>{{.}}</td>{{/r0}}</tr>
+          <tr><th>I0</th>{{#i0}}<td>{{.}}</td>{{/i0}}</tr>
+          <tr><th>RI0</th>{{#ri0}}<td>{{.}}</td>{{/ri0}}</tr>
+        </tbody>
+      </table>
+    </body>
   </html>
   '''
 
@@ -70,8 +70,10 @@ def absolute_pitch_class(pc):
         pc +=  12
     return pc
 
-def shift_to_zero(rw):
-     or0 = rw[0]
+def shift_to_zero(rw):
+
+     or0 = rw[0]
+
      rw =  [num - or0 for num in rw]
      rw =  [absolute_pitch_class(num) for num in rw]
      return rw
