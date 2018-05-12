@@ -1,4 +1,4 @@
-import pystache
+import sqlite3,pystache
 from flask import request
 
 def root():
@@ -47,3 +47,50 @@ def root():
           <tr><td>Count by Year Released</td><td><a href="/discogs/reports?rpt=year_count">HTML</a></td></tr>
         </tbody>
       </table></div></body></html>'''
+
+discogs_report_template = '''
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+        <title>Discogs</title>
+          <style> table,th,td {
+                  border: 1px solid black;
+                  border-collapse: collapse;
+                  padding: 3px;
+                  text-align: center;}
+                  td {text-align: left}
+          </style>
+       </head>
+       <body>
+         <table id="id_release_table">
+           <thead><tr>{{#header}}<th>{{.}}</th>{{/header}}</tr></thead>
+           <tbody>
+           {{#results}}
+            <tr>{{#result}}<td>{{.}}</td>{{/result}}</tr>
+            {{/results}}
+           </tbody>
+         </table>
+       </body>
+     </html>'''
+
+def qry_html(qry_dict):
+        conn = sqlite3.connect('./resources/discogs.db')
+        c = conn.cursor()
+        c.execute(qry_dict["query"])
+        all_results = c.fetchall()
+        all_results = list(map(lambda x: {"result": x}, all_results))
+        header = qry_dict["header"]
+        all_results = {"header":header, "results": all_results}
+        return pystache.render(discogs_report_template,all_results)
+   
+def releases():
+    sort = request.args.get("sort")
+    select_fields = "title, artist, label, year"
+    select_from_clauses = "Select " + select_fields + " from release"
+
+    if (sort is None) : qry_string = select_from_clauses
+    else:    qry_string = select_from_clauses + " order by \"" + sort + "\""
+
+    header = ["Title", "Artist", "Label", "Release Year"]
+    
+    return qry_html({"header":header,"query":qry_string})

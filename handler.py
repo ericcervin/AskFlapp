@@ -44,6 +44,7 @@ app.add_url_rule('/destiny/reports/<report>','destiny_reports',destiny.reports)
 app.add_url_rule('/destiny/cards','destiny_cards',destiny.cards) 
 
 app.add_url_rule('/discogs','discogs_root',discogs.root)
+app.add_url_rule('/discogs/releases','discogs_releases',discogs.releases)
 
 app.add_url_rule('/powerball','powerball_root',powerball.root)
 app.add_url_rule('/powerball/html','powerball_res_html',powerball.res_html)
