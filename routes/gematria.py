@@ -35,3 +35,70 @@ def root():
     </div>
     </body>
     </html>'''
+
+gematria_word_template = '''
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <title>Gematria</title>
+          <style>table,th,td {
+                 border: 1px solid black;
+                 border-collapse: collapse;
+                 padding: 3px;
+                 text-align: center
+          }
+                 td {text-align: left}
+      </style></head>
+      <body>
+      <div id="header">
+      <table id = 'id_word_value_table'>
+      <tr>{{#wrd_list}}<th>{{.}}</th>{{/wrd_list}}</tr>
+      <tr>{{#wrd_result}}<td>{{.}}</td>{{/wrd_result}}</tr></table>
+  </div>
+  <br><br>
+  <div id="etc">
+  <p>Others with same value</p>
+  <br>
+  <table id = 'id_other_word_table'>
+  <tr><th>Word</th><th>Value</th></tr>
+   {{#other_results}}
+   <tr>{{#result}}<td>{{.}}</td>{{/result}}</tr>
+   {{/other_results}}
+  </table>
+  </div>
+  </body>
+  </html>
+
+'''
+
+
+
+def calculate_word_value(wrd):
+    values = [ord(i) - 96 for i in wrd.lower()]
+    value_pairs = [[i,ord(i)-96] for i in wrd.lower()]
+    total_value = 0
+    for i in values:
+        total_value += i
+    value_map = {"word" : wrd,
+                 "values" : values,
+                 "value_pairs" : value_pairs,
+                 "total_value" : total_value}
+    return value_map
+
+def words():
+    word = request.args.get("word")
+    word = word.lower()
+    
+    wrd_map = calculate_word_value(word)
+
+    word_result = wrd_map["values"]
+    word_result.append(wrd_map["total_value"])
+
+    word_list = list(word)
+    word_list.append("total")
+
+    output_map = {"wrd_list" : word_list,
+                  "wrd_result" : word_result}
+
+    return pystache.render(gematria_word_template,output_map)
+    
