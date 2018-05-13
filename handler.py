@@ -1,6 +1,6 @@
 from flask import Flask,Response
 import sqlite3, pystache
-from routes import destiny, discogs, powerball, serialism
+from routes import destiny, discogs, gematria, powerball, serialism
 app = Flask(__name__)
 
 @app.route('/')
@@ -47,6 +47,8 @@ app.add_url_rule('/destiny/reports/<report>','destiny_reports',destiny.reports)
 app.add_url_rule('/discogs','discogs_root',discogs.root)
 app.add_url_rule('/discogs/releases','discogs_releases',discogs.releases)
 app.add_url_rule('/discogs/reports/<report>','discogs_reports',discogs.reports)
+
+app.add_url_rule('/gematria','gematria_root',gematria.root)
 
 app.add_url_rule('/powerball','powerball_root',powerball.root)
 app.add_url_rule('/powerball/html','powerball_res_html',powerball.res_html)
