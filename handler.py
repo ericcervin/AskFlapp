@@ -31,6 +31,7 @@ def index():
               <thead><tr><th scope="col">Resource</th><th scope="col">Description</th><th scope="col">Data Updated</th></tr></thead>
               <tbody>
               <tr><td><a href="/destiny">Destiny</a></td><td>Star Wars Destiny card game data</td><td>04/16/2018</td></tr>
+              <tr><td><a href="/discogs">Discogs</a></td><td>Albums I've cataloged</td><td>12/16/2017</td></tr>
               <tr><td><a href="/powerball">Powerball</a></td><td>A source for Powerball numbers to play</td><td>N/A</td></tr>
               <tr><td><a href="/serialism">Serialism</a></td><td>Toying with set theory</td><td>N/A</td></tr>
               </tbody>
@@ -40,11 +41,12 @@ def index():
               '''
 
 app.add_url_rule('/destiny','destiny_root',destiny.root)
-app.add_url_rule('/destiny/reports/<report>','destiny_reports',destiny.reports)
 app.add_url_rule('/destiny/cards','destiny_cards',destiny.cards) 
+app.add_url_rule('/destiny/reports/<report>','destiny_reports',destiny.reports)
 
 app.add_url_rule('/discogs','discogs_root',discogs.root)
 app.add_url_rule('/discogs/releases','discogs_releases',discogs.releases)
+app.add_url_rule('/discogs/reports/<report>','discogs_reports',discogs.reports)
 
 app.add_url_rule('/powerball','powerball_root',powerball.root)
 app.add_url_rule('/powerball/html','powerball_res_html',powerball.res_html)

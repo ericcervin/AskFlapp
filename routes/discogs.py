@@ -42,9 +42,9 @@ def root():
         <thead><tr>
         <th scope="col">Report</th><th scope="col">Format</th></tr></thead>
         <tbody>
-          <tr><td>Count by Artist</td><td><a href="/discogs/reports?rpt=artist_count\>HTML</a></td></tr>
-          <tr><td>Count by Label</td><td><a href="/discogs/reports?rpt=label_count">HTML</a></td></tr>
-          <tr><td>Count by Year Released</td><td><a href="/discogs/reports?rpt=year_count">HTML</a></td></tr>
+          <tr><td>Count by Artist</td><td><a href="/discogs/reports/artist_count">HTML</a></td></tr>
+          <tr><td>Count by Label</td><td><a href="/discogs/reports/label_count">HTML</a></td></tr>
+          <tr><td>Count by Year Released</td><td><a href="/discogs/reports/year_count">HTML</a></td></tr>
         </tbody>
       </table></div></body></html>'''
 
@@ -94,3 +94,24 @@ def releases():
     header = ["Title", "Artist", "Label", "Release Year"]
     
     return qry_html({"header":header,"query":qry_string})
+
+def reports(report):
+     report_dict =  {"artist_count" : 
+                  {"header" : ["Artist", "Count"], 
+                   "query" : "Select artist, count(*) as count from release group by artist order by count(*) DESC"},
+                  "label_count" :
+                  {"header" : ["Label", "Count"], 
+                   "query" : "Select label, count(*) as count from release group by label order by count(*) DESC"},
+                  "year_count" :
+                  {"header" : ["Year Released", "Count"], 
+                   "query"  : "Select year, count(*) as count from release group by year order by count(*) DESC"},
+                  "year_month_added" :
+                   {"header" : ["Year Added", "Month Added", "Count"],
+                    "query" :  '''Select substr(dateadded,0,5), substr(dateadded,6,2), Count(*) 
+                                from release group by substr(dateadded,0,5), substr(dateadded,6,2)
+                                order by substr(dateadded,0,5) DESC, substr(dateadded,6,2) DESC'''}
+                  }
+     if report in report_dict:
+        return qry_html(report_dict[report])
+     else:
+        return "<HTML><HEAD></HEAD><BODY>Invalid report name</BODY>"
