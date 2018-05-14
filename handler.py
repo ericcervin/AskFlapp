@@ -32,6 +32,7 @@ def index():
               <tbody>
               <tr><td><a href="/destiny">Destiny</a></td><td>Star Wars Destiny card game data</td><td>04/16/2018</td></tr>
               <tr><td><a href="/discogs">Discogs</a></td><td>Albums I've cataloged</td><td>12/16/2017</td></tr>
+              <tr><td><a href="/gematria">Gematria</a></td><td>The numerical value of words</td><td>N/A</td></tr>
               <tr><td><a href="/powerball">Powerball</a></td><td>A source for Powerball numbers to play</td><td>N/A</td></tr>
               <tr><td><a href="/serialism">Serialism</a></td><td>Toying with set theory</td><td>N/A</td></tr>
               </tbody>
@@ -50,6 +51,7 @@ app.add_url_rule('/discogs/reports/<report>','discogs_reports',discogs.reports)
 
 app.add_url_rule('/gematria','gematria_root',gematria.root)
 app.add_url_rule('/gematria/word','gematria_words',gematria.words)
+app.add_url_rule('/gematria/value','gematria_values',gematria.values)
 
 app.add_url_rule('/powerball','powerball_root',powerball.root)
 app.add_url_rule('/powerball/html','powerball_res_html',powerball.res_html)
