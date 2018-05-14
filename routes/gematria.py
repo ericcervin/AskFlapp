@@ -85,6 +85,14 @@ def calculate_word_value(wrd):
                  "total_value" : total_value}
     return value_map
 
+def query_table(query):
+    conn = sqlite3.connect('./resources/gematria.db')
+    c = conn.cursor()
+    c.execute(query)
+    all_results = c.fetchall()
+    all_results = list(map(lambda x: {"result": x}, all_results))
+    return all_results
+
 def words():
     word = request.args.get("word")
     word = word.lower()
@@ -97,8 +105,12 @@ def words():
     word_list = list(word)
     word_list.append("total")
 
+    query = "Select word, wordvalue from gematria where wordvalue = \"" + str(wrd_map["total_value"]) + "\" order by word"
+    other_results = query_table(query)
+    
     output_map = {"wrd_list" : word_list,
-                  "wrd_result" : word_result}
+                  "wrd_result" : word_result,
+                  "other_results" : other_results}
 
     return pystache.render(gematria_word_template,output_map)
     
