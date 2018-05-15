@@ -21,8 +21,8 @@ def index():
               <div id="header">
               <h1>Eric Ervin Dot Com</h1>
               <p>A toy website to release some Python into the world.</p>
-              <p><a href="https://github.com/ericcervin/AskFlapp">https://github.com/ericcervin/AskFlapp</a></p>
               <p>Though it's a toy, these are resources I use. (Except that I've quit playing Powerball)</p>
+              <p><a href="https://github.com/ericcervin/AskFlapp">https://github.com/ericcervin/AskFlapp</a></p>
               <p>There is a (twin) sister site written in Clojure: <a href = "http://ericervin.org">http://ericervin.org</a>
               <br>
               </div>
@@ -33,6 +33,7 @@ def index():
               <tr><td><a href="/destiny">Destiny</a></td><td>Star Wars Destiny card game data</td><td>04/16/2018</td></tr>
               <tr><td><a href="/discogs">Discogs</a></td><td>Albums I've cataloged</td><td>12/16/2017</td></tr>
               <tr><td><a href="/gematria">Gematria</a></td><td>The numerical value of words</td><td>N/A</td></tr>
+              <tr><td><a href="/philosophy">Philosophy</a></td><td>Philosophy degrees completed during the 2014-2015 academic year</td><td>12/23/2017</td></tr>
               <tr><td><a href="/powerball">Powerball</a></td><td>A source for Powerball numbers to play</td><td>N/A</td></tr>
               <tr><td><a href="/serialism">Serialism</a></td><td>Toying with set theory</td><td>N/A</td></tr>
               </tbody>
@@ -54,13 +55,13 @@ app.add_url_rule('/gematria/word','gematria_words',gematria.words)
 app.add_url_rule('/gematria/value','gematria_values',gematria.values)
 
 app.add_url_rule('/philosophy','philosophy_usa_root',philosophy_usa.root)
+app.add_url_rule('/philosophy/reports/<report>','philosophy_usa_reports',philosophy_usa.reports)
 
 app.add_url_rule('/powerball','powerball_root',powerball.root)
 app.add_url_rule('/powerball/html','powerball_res_html',powerball.res_html)
 
 app.add_url_rule('/serialism','serialism_root',serialism.root)
 app.add_url_rule('/serialism/html','serialism_res_html',serialism.res_html)
-
 
 
 @app.route('/robots.txt')
