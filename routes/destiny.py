@@ -96,22 +96,33 @@ report_template = '''<html><head>
                      <div id="report">
                      <table id = \"id_card_table\">
                      <thead>
-                     <tr>{{#header}}<th>{{.}}</th>{{/header}}</tr>
+                     <tr>{{#header}}<th>{{{.}}}</th>{{/header}}</tr>
                      </thead>
                      <tbody>
                      {{#results}}
-                     <tr>{{#result}}<td>{{.}}</td>{{/result}}</tr>
+                     <tr>{{#result}}<td>{{{.}}}</td>{{/result}}</tr>
                      {{/results}}
                      </tbody>
                      </table></body></html>
                      '''
+
+def html_for_http(cl):
+  if isinstance(cl, str) == True:
+   if "http" in cl:
+       cl = "<A HREF = \"" + cl + "\">" + cl + "</A>"
+  if cl is None:
+      cl = ""
+  return cl
+
+def html_for_result(res):
+    return list(map(html_for_http, res))
 
 def qry_html(qry_dict):
         conn = sqlite3.connect('./resources/destiny.db')
         c = conn.cursor()
         c.execute(qry_dict["query"])
         all_results = c.fetchall()
-        all_results = list(map(lambda x: {"result": x}, all_results))
+        all_results = list(map(lambda x: {"result": html_for_result(x)}, all_results))
         header = qry_dict["header"]
         all_results = {"header":header, "results": all_results}
         return pystache.render(report_template,all_results)
