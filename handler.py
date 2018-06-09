@@ -53,6 +53,7 @@ app.add_url_rule('/discogs/reports/<report>','discogs_reports',discogs.reports)
 app.add_url_rule('/gematria','gematria_root',gematria.root)
 app.add_url_rule('/gematria/word','gematria_words',gematria.words)
 app.add_url_rule('/gematria/value','gematria_values',gematria.values)
+app.add_url_rule('/gematria/search','gematria_search',gematria.search)
 
 app.add_url_rule('/philosophy','philosophy_usa_root',philosophy_usa.root)
 app.add_url_rule('/philosophy/reports/<report>','philosophy_usa_reports',philosophy_usa.reports)

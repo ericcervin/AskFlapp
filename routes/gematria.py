@@ -71,30 +71,29 @@ gematria_word_template = '''
   </html>
 '''
 
-gematria_value_template = '''
-     <!DOCTYPE html>
-     <html lang="en">
-     <head>
-     <title>Gematria</title>
-     <style>table,th,td {
-                 border: 1px solid black;
-                 border-collapse: collapse;
-                 padding: 3px;
-                 text-align: center
-                 }              
-                 td {text-align: left}
-                 
-      </style>
-      </head>
-      <body>
-      <table id = 'id_word_value_table'>
-      <tr>
-      <th>Word</th><th>Value</th></tr>
-      {{#results}}
-      <tr>{{#result}}<td>{{.}}</td>{{/result}}</tr>
-      {{/results}}
-      </table>
-      </body>
+gematria_value_template = '''
+     <!DOCTYPE html>
+     <html lang="en">
+     <head>
+     <title>Gematria</title>
+     <style>table,th,td {
+                 border: 1px solid black;
+                 border-collapse: collapse;
+                 padding: 3px;
+                 text-align: center
+                 }              
+                 td {text-align: left}
+      </style>
+      </head>
+      <body>
+      <table id = 'id_word_value_table'>
+      <tr>
+      <th>Word</th><th>Value</th></tr>
+      {{#results}}
+      <tr>{{#result}}<td>{{.}}</td>{{/result}}</tr>
+      {{/results}}
+      </table>
+      </body>
       </html>'''
 
 
@@ -117,6 +116,13 @@ def query_table(query):
     all_results = c.fetchall()
     all_results = list(map(lambda x: {"result": x}, all_results))
     return all_results
+
+def search():
+    if "word" in request.args:
+        return words()
+    elif "value" in request.args:
+        return values()
+    else: return ""
 
 def words():
     word = request.args.get("word")
@@ -148,5 +154,6 @@ def values():
 
     query = "Select word, wordvalue from gematria where wordvalue = \"" + str(value) + "\" order by word"
     results = query_table(query)
-    output_map = {"results" : results} 
+    output_map = {"results" : results} 
+
     return pystache.render(gematria_value_template,output_map)
