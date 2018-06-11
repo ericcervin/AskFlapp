@@ -22,13 +22,13 @@ def root():
     </div>
     <div id="word_form">
     <p>Calculate the numerical value of a word.</p>
-    <form action="/gematria/word" method="get">
+    <form action="/gematria/search" method="get">
     <input id="id_word_input" name="word" type="text">
     <input type="submit" value="Calculate"></form>
     </div>
     <div id="value_form">
     <p>Search the 10,000 most common English words by numerical value.</p>
-    <form action="/gematria/value" method="get">
+    <form action="/gematria/search" method="get">
     <input id="id_value_input" name="value" type="text">
     <input type="submit" value="Search">
     </form>
