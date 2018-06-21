@@ -70,6 +70,7 @@ def root():
               <tr><td>Count by Rarity</td><td><a href="/destiny/reports/rarity_count">HTML</a></td></tr>
               <tr><td>Count by Set</td><td><a href="/destiny/reports/set_count">HTML</a></td></tr>
               <tr><td>Highest Cost Support/Event/Upgrade</td><td><a href="/destiny/reports/high_cost">HTML</a></td></tr>
+              <tr><td>Odd Cost Support/Event/Upgrade</td><td><a href="/destiny/reports/odd_cost">HTML</a></td></tr>
               <tr><td>Rarity Legendary Cards</td><td><a href="/destiny/reports/legendary">HTML</a></td></tr>
               <tr><td>Rarity Rare Cards</td><td><a href="/destiny/reports/rare">HTML</a></td></tr>
               <tr><td>Type Character Cards</td><td><a href="/destiny/reports/type_character">HTML</a></td></tr>
@@ -159,7 +160,11 @@ def reports(report):
            {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
             "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, ccost, csides, imgsrc 
                                         from card where rarity = "Legendary"''' 
-           },
+            },
+         "odd_cost":
+            {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"],
+             "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, ccost, csides, imgsrc
+                        from card where ccost IN (1,3,5)'''},
          "rare": 
            {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
             "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, ccost, csides, imgsrc 
