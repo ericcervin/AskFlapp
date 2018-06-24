@@ -131,7 +131,7 @@ def qry_html(qry_dict):
 def cards():
     affil = request.args.get("affil")
     fact =  request.args.get("fact")
-    select_fields = "cardsetcode, position, name, typename, isunique, raritycode, affiliation, factioncode, cminpoints, cmaxpoints, chealth, csides,imgsrc"
+    select_fields = "cardsetcode, position, name, typename, isunique, raritycode, affiliation, factioncode, cminpoints, cmaxpoints, chealth, ccost, csides,imgsrc"
     select_from_clauses = "Select " + select_fields + " from card"
 
     if      (affil is None) and (fact is None): qry_string = select_from_clauses
@@ -140,7 +140,7 @@ def cards():
     else:    qry_string = select_from_clauses + " where affiliation = \"" + affil + "\" and faction = \"" + fact + "\""
 
     header = ["Set", "Pos", "Name", "Type", "Unique", "Rarity", "Affil", "Faction", 
-              "Min<br>Cost", "Max<br>Cost", "Health", "Sides", "Img Source"]
+              "Min<br>Points", "Max<br>Points", "Health", "Cost", "Sides", "Img Source"]
     
     return qry_html({"header":header,"query":qry_string})
 
