@@ -83,7 +83,7 @@ def error404(error):
               <title>Error 404 Not Found</title>
               </head>
               <body>404 - Not Found</body>
-              </html>'''
+              </html>''', 404
 
 if __name__ == '__main__':
     app.run(debug=True)
