@@ -103,8 +103,7 @@ report_template = '''<html><head>
                      {{#results}}
                      <tr>{{#result}}<td>{{{.}}}</td>{{/result}}</tr>
                      {{/results}}
-                     </tbody>
-                     </table></body></html>
+                     </tbody></table></body></html>
                      '''
 
 def html_for_http(cl):
