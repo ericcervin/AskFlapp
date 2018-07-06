@@ -19,12 +19,12 @@ def root():
             <body>
             <div id="header">
             <h1>Serialism</h1>
-            <p>Rows and rows of numbers</p>
+            <p>Rows and rows of pitch classes</p>
             </div>
-            <div id="numbers">
+            <div id="pcs">
             <table>
             <thead>
-            <tr><th scope="col">Numbers</th></tr>
+            <tr><th scope="col">Basic Rows</th></tr>
             </thead>
             <tbody>
             <tr><td><a href="/serialism/html">HTML</a></td></tr>
@@ -82,16 +82,25 @@ def invert(n):
     if n != 0:
         n = 12 - n
     return n
-        
+
+def add_e_and_t(n):
+    if n == 10:
+        return "t"
+    elif n == 11:
+        return "e"
+    else:
+        return n
     
            
 def res_html():
-    p0 = shift_to_zero(random_dodeca_row())
+    start = shift_to_zero(random_dodeca_row());
+    
+    p0 = []; p0.extend(start); p0 = [add_e_and_t(n) for n in p0] 
 
-    r0 = []; r0.extend(p0); r0.reverse()
+    r0 = []; r0.extend(start); r0.reverse(); r0 = [add_e_and_t(n) for n in r0]
 
-    i0 = []; i0.extend(p0); i0 = [invert(n) for n in p0]
+    i0 = []; i0.extend(start); i0 = [invert(n) for n in i0]; i0 = [add_e_and_t(n) for n in i0]
 
-    ri0 = []; ri0.extend(i0); ri0.reverse()
+    ri0 = []; ri0.extend(i0); ri0.reverse(); ri0 = [add_e_and_t(n) for n in ri0]
     
     return pystache.render(serialism_result_template,{"p0": p0,"r0" : r0, "i0" : i0, "ri0" : ri0})
