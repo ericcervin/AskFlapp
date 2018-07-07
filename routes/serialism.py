@@ -48,6 +48,7 @@ serialism_result_template = '''
       <title>Serialism</title>
     </head>
     <body>
+      <p>(t = ten. e = eleven.)</p>
       <table>
         <tbody>
           <tr><th>P0</th>{{#p0}}<td>{{.}}</td>{{/p0}}</tr>
