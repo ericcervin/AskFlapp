@@ -68,8 +68,8 @@ app.add_url_rule('/powerball','powerball_root',powerball.root)
 app.add_url_rule('/powerball/html','powerball_res_html',powerball.res_html)
 
 app.add_url_rule('/serialism','serialism_root',serialism.root)
-app.add_url_rule('/serialism/html','serialism_res_html',serialism.res_html)
-
+app.add_url_rule('/serialism/rows/html','serialism_res_row_html',serialism.res_row_html)
+app.add_url_rule('/serialism/square/html','serialism_res_square_html',serialism.res_square_html)
 
 @app.route('/robots.txt')
 def robots():

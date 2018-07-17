@@ -1,40 +1,45 @@
 import pystache, random
 from flask import request
 
-def root():
-    return '''<!DOCTYPE html>
-            <html lang="en">
-            <head>
-            <style>
-            table,th,td {
-              border: 1px solid black;
-              border-collapse: collapse;
-              padding: 3px;
-              text-align: center
+serialism_root_template = '''
+   <!DOCTYPE html>  
+   <html lang="en">            
+      <head>
+        <style>
+           table,th,td {
+             border: 1px solid black;
+             border-collapse: collapse;
+             padding: 3px;
+             text-align: center
             }
-              td {text-align: left}
-            </style>
-            <title>Serialism</title>
-            </head>
-            <body>
-            <div id="header">
-            <h1>Serialism</h1>
-            <p>Rows and rows of pitch classes</p>
-            </div>
-            <div id="pcs">
-            <table>
+             td {text-align: left}
+        </style>
+        <title>Serialism</title>
+      </head>
+      <body>
+        <div id="header">
+          <h1>Serialism</h1>
+          <p>Rows and rows of pitch classes</p>
+        </div>
+        <div id="pcs">
+          <table>
             <thead>
-            <tr><th scope="col">Basic Rows</th></tr>
+              <tr><th scope="col">Basic Rows</th><th scope="col">Square</th></tr>
             </thead>
             <tbody>
-            <tr><td><a href="/serialism/html">HTML</a></td></tr>
+              <tr><td><a href="/serialism/rows/html">HTML</a></td>
+                  <td><a href="/serialism/square/html">HTML</a></td>
+              </tr>
             </tbody>
-            </table>
-            </div>
-            </body>
-            </html>'''
+          </table>
+        </div>
+      </body>
+    </html>
 
-serialism_result_template = '''
+'''
+
+
+serialism_row_template = '''
   <!DOCTYPE html>
   <html lang="en">
     <head>  
@@ -61,15 +66,53 @@ serialism_result_template = '''
   </html>
   '''
 
+serialism_square_template = '''
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>  
+      <style> table,th,td {
+         border: 1px solid black;
+         border-collapse: collapse;
+         padding: 3px;
+         text-align: center;}
+         td {text-align: left;
+             width: 20px}
+      </style>
+      <title>Serialism</title>
+    </head>
+    <body>
+      <p>(t = ten. e = eleven.)</p>
+      <table>
+        <tbody>
+          {{#sq}}
+          <tr>
+          {{#vl}}
+          <td>{{.}}</td>
+          {{/vl}}
+          </tr>
+          {{/sq}}
+        </tbody>
+      </table>
+    </body>
+  </html>
+'''
+
 def random_dodeca_row():
     rw = list(range(12))
     random.shuffle(rw)
     return rw
 
 def absolute_pitch_class(pc):
-    if pc < 0:
-        pc +=  12
+    if pc < 0: pc +=  12
+    elif pc > 12: pc -= 12
+    elif pc == 12: pc = 0
     return pc
+
+def transpose(pc, i):
+    return absolute_pitch_class(pc + i)
+
+def transpose_row(rw,i):
+    return [transpose(x,i) for x in rw]
 
 def shift_to_zero(rw):
 
@@ -91,9 +134,14 @@ def add_e_and_t(n):
         return "e"
     else:
         return n
-    
-           
-def res_html():
+
+def serial_square(rw):
+    square = []
+    for i in rw:
+        square.append({"vl" : transpose_row(rw,12 - i)})
+    return square
+        
+def serialism_dict():
     start = shift_to_zero(random_dodeca_row());
     
     p0 = []; p0.extend(start); p0 = [add_e_and_t(n) for n in p0] 
@@ -103,5 +151,16 @@ def res_html():
     i0 = []; i0.extend(start); i0 = [invert(n) for n in i0]; i0 = [add_e_and_t(n) for n in i0]
 
     ri0 = []; ri0.extend(i0); ri0.reverse(); ri0 = [add_e_and_t(n) for n in ri0]
+
+    sq = serial_square(start)
     
-    return pystache.render(serialism_result_template,{"p0": p0,"r0" : r0, "i0" : i0, "ri0" : ri0})
+    return {"p0": p0,"r0" : r0, "i0" : i0, "ri0" : ri0, "sq" : sq}
+
+def root():
+    return pystache.render(serialism_root_template)
+           
+def res_row_html():
+    return pystache.render(serialism_row_template,serialism_dict())
+
+def res_square_html():
+    return pystache.render(serialism_square_template,serialism_dict())
