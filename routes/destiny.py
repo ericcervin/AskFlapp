@@ -69,6 +69,7 @@ def root():
               <tr><td>Count by Affiliation/Faction</td><td><a href="/destiny/reports/affiliation_faction_count">HTML</a></td></tr>
               <tr><td>Count by Rarity</td><td><a href="/destiny/reports/rarity_count">HTML</a></td></tr>
               <tr><td>Count by Set</td><td><a href="/destiny/reports/set_count">HTML</a></td></tr>
+              <tr><td>Count by Set/Affiliation/Faction (cards with dice)</td><td><a href="/destiny/reports/set_affiliation_faction_dice_count">HTML</a></td></tr>
               <tr><td>Highest Cost Support/Event/Upgrade</td><td><a href="/destiny/reports/high_cost">HTML</a></td></tr>
               <tr><td>Odd Cost Support/Event/Upgrade</td><td><a href="/destiny/reports/odd_cost">HTML</a></td></tr>
               <tr><td>Rarity Legendary Cards</td><td><a href="/destiny/reports/legendary">HTML</a></td></tr>
@@ -172,6 +173,12 @@ def reports(report):
          "rarity_count":
               {"header": ["Rarity", "Count"],
                 "query" : '''Select rarity, count(*) as count from card group by rarity'''},
+         "set_affiliation_faction_dice_count":
+                {"header": ["Set", "Affilliation", "Faction", "Dice Count"], 
+                 "query":  '''Select cardset, affiliation, faction, count(*) as count 
+                              from card
+                              where csides IS NOT NULL
+                              group by cardset, affiliation, faction'''},
          "set_count": 
                 {"header": ["Set", "Count"], 
                  "query":  '''Select cardset, count(*) as count from card group by cardset'''},
