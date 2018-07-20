@@ -138,7 +138,8 @@ def add_e_and_t(n):
 def serial_square(rw):
     square = []
     for i in rw:
-        square.append({"vl" : transpose_row(rw,12 - i)})
+        transposed_row = transpose_row(rw,12 - i)
+        square.append({"vl" : [add_e_and_t(n) for n in transposed_row]})
     return square
         
 def serialism_dict():
