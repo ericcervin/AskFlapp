@@ -138,7 +138,7 @@ def words():
     word_list = list(word)
     word_list.append("total")
 
-    query = "Select word, wordvalue from gematria where wordvalue = \"" + str(wrd_map["total_value"]) + "\" order by word"
+    query = "Select word, wordvalue from gematria where wordvalue = \"" + str(wrd_map["total_value"]) + "\" and word != \"" + str(wrd_map["word"]) + "\" order by word"
     other_results = query_table(query)
     
     output_map = {"wrd_list" : word_list,
