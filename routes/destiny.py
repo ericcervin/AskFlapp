@@ -82,7 +82,7 @@ def root():
               </html>'''
 
 report_template = '''<html><head>
-                     <title>Destiny</title>
+                     <title>{{title}}</title>
                      <style>
                      table,th,td {
                                border: 1px solid black;
@@ -96,6 +96,7 @@ report_template = '''<html><head>
                      </head>
                      </head><body>
                      <div id="report">
+                     <h3>{{title}}<h3>
                      <table id = \"id_card_table\">
                      <thead>
                      <tr>{{#header}}<th>{{{.}}}</th>{{/header}}</tr>
@@ -125,7 +126,8 @@ def qry_html(qry_dict):
         all_results = c.fetchall()
         all_results = list(map(lambda x: {"result": html_for_result(x)}, all_results))
         header = qry_dict["header"]
-        all_results = {"header":header, "results": all_results}
+        title = qry_dict["title"]
+        all_results = {"title": title, "header":header, "results": all_results}
         return pystache.render(report_template,all_results)
     
 def cards():
@@ -142,7 +144,7 @@ def cards():
     header = ["Set", "Pos", "Name", "Type", "Unique", "Rarity", "Affil", "Faction", 
               "Min<br>Points", "Max<br>Points", "Health", "Cost", "Sides", "Img Source"]
     
-    return qry_html({"header":header,"query":qry_string})
+    return qry_html({"title" : "Cards", "header":header,"query":qry_string})
 
 report_dict = {
         
