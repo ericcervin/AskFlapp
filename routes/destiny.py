@@ -1,7 +1,14 @@
 import sqlite3,pystache
 from flask import request
+
 def root():
-    return '''<!DOCTYPE html>
+    report_list = list(map(lambda x : {"key" : x[0], "text" : x[1]["title"]}, report_dict.items()))
+    report_list = sorted(report_list,key = lambda x: x["text"])
+    return pystache.render(root_template, report_list)
+
+
+root_template = '''
+              <!DOCTYPE html>
               <html lang="en">
               <head>
               <title>Destiny</title>
@@ -65,17 +72,9 @@ def root():
               <div id="reports">
               <h4>Reports</h4>
               <table>
-              <tr><td>Compatible with Villains, Command</td><td><a href="/destiny/reports/villain_command_compatible">HTML</a></td></tr>   
-              <tr><td>Count by Affiliation/Faction</td><td><a href="/destiny/reports/affiliation_faction_count">HTML</a></td></tr>
-              <tr><td>Count by Rarity</td><td><a href="/destiny/reports/rarity_count">HTML</a></td></tr>
-              <tr><td>Count by Set</td><td><a href="/destiny/reports/set_count">HTML</a></td></tr>
-              <tr><td>Count by Set/Affiliation/Faction (cards with dice)</td><td><a href="/destiny/reports/set_affiliation_faction_dice_count">HTML</a></td></tr>
-              <tr><td>Highest Cost Support/Event/Upgrade</td><td><a href="/destiny/reports/high_cost">HTML</a></td></tr>
-              <tr><td>Odd Cost Support/Event/Upgrade</td><td><a href="/destiny/reports/odd_cost">HTML</a></td></tr>
-              <tr><td>Rarity Legendary Cards</td><td><a href="/destiny/reports/legendary">HTML</a></td></tr>
-              <tr><td>Rarity Rare Cards</td><td><a href="/destiny/reports/rare">HTML</a></td></tr>
-              <tr><td>Type Character Cards</td><td><a href="/destiny/reports/type_character">HTML</a></td></tr>
-              <tr><td>Type Upgrade Cards</td><td><a href="/destiny/reports/type_upgrade">HTML</a></td></tr>
+              {{#.}}
+              <tr><td>{{text}}</td><td><a href=\"/destiny/reports/{{key}}\">HTML</a></td></tr>
+              {{/.}}
               </table>
               </div>
               </body>
