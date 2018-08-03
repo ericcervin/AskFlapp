@@ -144,54 +144,63 @@ def cards():
     
     return qry_html({"header":header,"query":qry_string})
 
-def reports(report):
-    
-    report_dict = {
+report_dict = {
         
          "affiliation_faction_count" :
-              {"header": ["Affilliation", "Faction", "Count"],
+              {"title" : "Count by Affiliation/Faction",
+               "header" : ["Affilliation", "Faction", "Count"],
                "query" : '''Select affiliation, faction, count(*) as count from card group by affiliation, faction'''},
          "high_cost" :
-              {"header": ["Set", "Pos", "Name", "Type", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
-               "query": '''Select cardsetcode, position, name, typename, isunique, raritycode, ccost, csides, imgsrc
+              {"title" : "Highest Cost Support/Event/Upgrade",
+               "header" : ["Set", "Pos", "Name", "Type", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
+               "query" : '''Select cardsetcode, position, name, typename, isunique, raritycode, ccost, csides, imgsrc
                                         from card where ccost is not null 
                                         order by ccost desc'''},
-         "legendary": 
-           {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
+         "legendary" : 
+           {"title" : "Rarity Legendary Cards",
+            "header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
             "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, ccost, csides, imgsrc 
                                         from card where rarity = "Legendary"''' 
             },
-         "odd_cost":
-            {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"],
+         "odd_cost" :
+            {"title" : "Odd Cost Support/Event/Upgrade",
+             "header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"],
              "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, ccost, csides, imgsrc
                         from card where ccost IN (1,3,5)'''},
-         "rare": 
-           {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
+         "rare" : 
+           {"title" : "Rarity Rare Cards",
+            "header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
             "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, ccost, csides, imgsrc 
                                         from card where rarity = "Rare"'''
            },
          "rarity_count":
-              {"header": ["Rarity", "Count"],
-                "query" : '''Select rarity, count(*) as count from card group by rarity'''},
+              {"title" : "Count by Rarity",
+               "header": ["Rarity", "Count"],
+               "query" : '''Select rarity, count(*) as count from card group by rarity'''},
          "set_affiliation_faction_dice_count":
-                {"header": ["Set", "Affilliation", "Faction", "Dice Count"], 
+                {"title" : "Count by Set/Affiliation/Faction (cards with dice)",
+                 "header": ["Set", "Affilliation", "Faction", "Dice Count"], 
                  "query":  '''Select cardset, affiliation, faction, count(*) as count 
                               from card
                               where csides IS NOT NULL
                               group by cardset, affiliation, faction'''},
          "set_count": 
-                {"header": ["Set", "Count"], 
+                {"title" : "Count by Set",
+                 "header": ["Set", "Count"], 
                  "query":  '''Select cardset, count(*) as count from card group by cardset'''},
          "type_character":
-                {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "MinPoints", "MaxPoints", "Health", "Sides", "Image"], 
+                {"title" : "Type Character Cards",
+                 "header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "MinPoints", "MaxPoints", "Health", "Sides", "Image"], 
                  "query" : '''Select cardsetcode, position, name, typename, affiliation, factioncode, isunique, raritycode, cminpoints, cmaxpoints, chealth, csides,
                               imgsrc from card where typename = "Character"'''},
          "type_upgrade":
-                {"header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
+                {"title" : "Type Upgrade Cards",
+                 "header" : ["Set", "Pos", "Name", "Type", "Affilliation", "Faction", "Is Unique", "Rarity", "Cost", "Sides", "Image"], 
                  "query" : '''Select cardsetcode, position, name, typename, affiliation, faction, isunique, raritycode, ccost, csides, imgsrc 
                   from card where typename = "Upgrade"'''},
          "villain_command_compatible" :
-              {"header": ["Set","Pos","Name","Type","Affilliation","Faction","Is Unique","Rarity","Cost","Sides","Image"],
+              {"title" : "Compatible with Villains, Command",
+               "header": ["Set","Pos","Name","Type","Affilliation","Faction","Is Unique","Rarity","Cost","Sides","Image"],
                "query" : '''Select cardsetcode, position, name, typename, affiliation,
                             factioncode, isunique, raritycode, ccost, csides, imgsrc
                             from card
@@ -199,6 +208,10 @@ def reports(report):
                             and (faction = "Command" or faction = "General")'''}
         
         }
+
+
+def reports(report):
+    
     if report in report_dict:
         return qry_html(report_dict[report])
     else:
