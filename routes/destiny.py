@@ -142,8 +142,10 @@ def cards():
 
     header = ["Set", "Pos", "Name", "Type", "Unique", "Rarity", "Affil", "Faction", 
               "Min<br>Points", "Max<br>Points", "Health", "Cost", "Sides", "Img Source"]
+
+    title = "{} {} Cards".format((affil or ""), (fact or ""))
     
-    return qry_html({"title" : "Cards", "header":header,"query":qry_string})
+    return qry_html({"title" : title, "header":header,"query":qry_string})
 
 report_dict = {
         
