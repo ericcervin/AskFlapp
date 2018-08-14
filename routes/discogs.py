@@ -52,7 +52,7 @@ discogs_report_template = '''
       <!DOCTYPE html>
       <html lang="en">
         <head>
-        <title>Discogs</title>
+        <title>{{title}}</title>
           <style> table,th,td {
                   border: 1px solid black;
                   border-collapse: collapse;
@@ -62,6 +62,8 @@ discogs_report_template = '''
           </style>
        </head>
        <body>
+         <div id="report">
+         <h3>{{title}}</h3>
          <table id="id_release_table">
            <thead><tr>{{#header}}<th>{{.}}</th>{{/header}}</tr></thead>
            <tbody>
@@ -79,8 +81,9 @@ def qry_html(qry_dict):
         c.execute(qry_dict["query"])
         all_results = c.fetchall()
         all_results = list(map(lambda x: {"result": x}, all_results))
+        title = qry_dict["title"]
         header = qry_dict["header"]
-        all_results = {"header":header, "results": all_results}
+        all_results = {"title": title, "header":header, "results": all_results}
         return pystache.render(discogs_report_template,all_results)
    
 def releases():
@@ -92,25 +95,32 @@ def releases():
     else:    qry_string = select_from_clauses + " order by \"" + sort + "\""
 
     header = ["Title", "Artist", "Label", "Release Year"]
-    
-    return qry_html({"header":header,"query":qry_string})
+    title = "Releases by {}".format(sort.title()) 
+    return qry_html({"title": title, "header":header,"query":qry_string})
+
+report_dict =  {
+          "artist_count" : 
+             {"title" : "Count by Artist",
+              "header" : ["Artist", "Count"], 
+              "query" : "Select artist, count(*) as count from release group by artist order by count(*) DESC"},
+          "label_count" :
+             {"title" : "Count by Label",
+              "header" : ["Label", "Count"], 
+              "query" : "Select label, count(*) as count from release group by label order by count(*) DESC"},
+          "year_count" :
+             {"title" : "Count by Release Year",
+              "header" : ["Year Released", "Count"], 
+              "query"  : "Select year, count(*) as count from release group by year order by count(*) DESC"},
+          "year_month_added" :
+             {"title" : "Count by Year/Month Added",
+              "header" : ["Year Added", "Month Added", "Count"],
+              "query" :  '''Select substr(dateadded,0,5), substr(dateadded,6,2), Count(*) 
+                            from release group by substr(dateadded,0,5), substr(dateadded,6,2)
+                            order by substr(dateadded,0,5) DESC, substr(dateadded,6,2) DESC'''}
+                  }
+
 
 def reports(report):
-     report_dict =  {"artist_count" : 
-                  {"header" : ["Artist", "Count"], 
-                   "query" : "Select artist, count(*) as count from release group by artist order by count(*) DESC"},
-                  "label_count" :
-                  {"header" : ["Label", "Count"], 
-                   "query" : "Select label, count(*) as count from release group by label order by count(*) DESC"},
-                  "year_count" :
-                  {"header" : ["Year Released", "Count"], 
-                   "query"  : "Select year, count(*) as count from release group by year order by count(*) DESC"},
-                  "year_month_added" :
-                   {"header" : ["Year Added", "Month Added", "Count"],
-                    "query" :  '''Select substr(dateadded,0,5), substr(dateadded,6,2), Count(*) 
-                                from release group by substr(dateadded,0,5), substr(dateadded,6,2)
-                                order by substr(dateadded,0,5) DESC, substr(dateadded,6,2) DESC'''}
-                  }
      if report in report_dict:
         return qry_html(report_dict[report])
      else:
