@@ -87,7 +87,7 @@ def qry_html(qry_dict):
         return pystache.render(discogs_report_template,all_results)
    
 def releases():
-    sort = request.args.get("sort")
+    sort = request.args.get("sort","artist")
     select_fields = "title, artist, label, year"
     select_from_clauses = "Select " + select_fields + " from release"
 
