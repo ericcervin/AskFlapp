@@ -2,7 +2,11 @@ import sqlite3,pystache
 from flask import request
 
 def root():
-    return '''
+    report_list = list(map(lambda x : {"key" : x[0], "text" : x[1]["title"]}, report_dict.items()))
+    report_list = sorted(report_list,key = lambda x: x["text"])
+    return pystache.render(root_template, report_list)
+
+root_template = '''
        <!DOCTYPE html>
        <html lang="en">
        <head>
@@ -39,14 +43,10 @@ def root():
        </div>
        <div id="reports"><h4>Reports</h4>
       <table>
-        <thead><tr>
-        <th scope="col">Report</th><th scope="col">Format</th></tr></thead>
-        <tbody>
-          <tr><td>Count by Artist</td><td><a href="/discogs/reports/artist_count">HTML</a></td></tr>
-          <tr><td>Count by Label</td><td><a href="/discogs/reports/label_count">HTML</a></td></tr>
-          <tr><td>Count by Year Released</td><td><a href="/discogs/reports/year_count">HTML</a></td></tr>
-        </tbody>
-      </table></div></body></html>'''
+       {{#.}}
+       <tr><td>{{text}}</td><td><a href=\"/discogs/reports/{{key}}\">HTML</a></td></tr>
+        {{/.}}
+        </table></div></body></html>'''
 
 discogs_report_template = '''
       <!DOCTYPE html>
