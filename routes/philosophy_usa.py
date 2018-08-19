@@ -2,7 +2,12 @@ import sqlite3,pystache
 from flask import request
 
 def root():
-    return '''
+    report_list = list(map(lambda x : {"key" : x[0], "text" : x[1]["title"]}, report_dict.items()))
+    report_list = sorted(report_list,key = lambda x: x["text"])
+    return pystache.render(root_template, report_list)
+
+
+root_template = '''
     <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -26,18 +31,10 @@ def root():
         <div id=\"reports\">
           <h4>Reports</h4>
           <table>
-            <thead>
-              <tr>
-                <th scope=\"col\">Report</th>
-                <th scope=\"col\">Format</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Philosophy Degrees Completed by Award Level</td><td><a href="/philosophy/reports/awlevel_count">HTML</a></td></tr>
-              <tr><td>Philosophy Degrees Completed by Institution</td><td><a href="/philosophy/reports/inst_count">HTML</a></td></tr>
-              <tr><td>Philosophy Degrees Completed by State</td><td><a href="/philosophy/reports/state_count">HTML</a></td></tr>
-              <tr><td>Philosophy Degrees Completed by Subject Classification</td><td><a href="/philosophy/reports/cip_count">HTML</a></td></tr>
-            </tbody>
+          {{#.}}
+          <tr><td>{{text}}</td><td><a href=\"/philosophy/reports/{{key}}\">HTML</a></td></tr>
+          {{/.}}
+        </table>
           </table>
         </div>
       </body>
@@ -85,8 +82,8 @@ def qry_html(qry_dict):
         all_results = {"title": title, "header":header, "results": all_results}
         return pystache.render(report_template,all_results)
 
-def reports(report):
-    report_dict = {
+
+report_dict = {
          "state_count" :
               {"title" : "Philosophy Degrees Completed by State",
                "header": ["State", "Count"],
@@ -121,6 +118,8 @@ def reports(report):
                          group by alcode, alvalue'''
            }
          }
+    
+def reports(report):
     if report in report_dict:
         return qry_html(report_dict[report])
     else:
