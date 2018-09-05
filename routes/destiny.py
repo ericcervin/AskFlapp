@@ -80,32 +80,37 @@ root_template = '''
               </body>
               </html>'''
 
-report_template = '''<html><head>
-                     <title>{{title}}</title>
-                     <style>
-                     table,th,td {
-                               border: 1px solid black;
-                               border-collapse: collapse;
-                               font-size: small;
-                               padding: 3px;
-                               text-align: center
-                               }
-                               td {text-align: left}
-                     </style>
-                     </head>
-                     </head><body>
-                     <div id="report">
-                     <h3>{{title}}<h3>
-                     <table id = \"id_card_table\">
-                     <thead>
-                     <tr>{{#header}}<th>{{{.}}}</th>{{/header}}</tr>
-                     </thead>
-                     <tbody>
-                     {{#results}}
-                     <tr>{{#result}}<td>{{{.}}}</td>{{/result}}</tr>
-                     {{/results}}
-                     </tbody></table></body></html>
-                     '''
+report_template = '''<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{title}}</title>
+    <style>
+      table,th,td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        font-size: small;
+        padding: 3px;
+        text-align: center
+      }
+       td {text-align: left}
+    </style>
+  </head>
+  <body>
+    <div id="report">
+      <h3>{{title}}<h3>
+      <table id = \"id_card_table\">
+        <thead>
+          <tr>{{#header}}<th>{{{.}}}</th>{{/header}}</tr>
+        </thead>
+        <tbody>
+          {{#results}}
+          <tr>{{#result}}<td>{{{.}}}</td>{{/result}}</tr>
+          {{/results}}
+        </tbody>
+      </table>
+    </div>  
+  </body>
+</html>'''
 
 def html_for_http(cl):
   if isinstance(cl, str) == True:
