@@ -111,7 +111,7 @@ report_template = '''<!DOCTYPE html>
   </head>
   <body>
     <div id="report">
-      <h3>{{title}}<h3>
+      <h3>{{title}}</h3>
       <table id = \"id_card_table\">
         <thead>
           <tr>{{#header}}<th>{{{.}}}</th>{{/header}}</tr>
