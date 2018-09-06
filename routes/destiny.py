@@ -7,78 +7,92 @@ def root():
     return pystache.render(root_template, report_list)
 
 
-root_template = '''
-              <!DOCTYPE html>
-              <html lang="en">
-              <head>
-              <title>Destiny</title>
-              <style>
-              table,th,td {
-                               border: 1px solid black;
-                               border-collapse: collapse;
-                               padding: 3px;
-                               text-align: center
-                               }
-              td {text-align: left}
-              </style>
-              </head>
-              <body>
-              <div id="header">
-              <h1>Star Wars Destiny</h1>
-              <br>
-              </div>
-              <div id="cards">
-              <table>
-              <thead>
-              <tr><th><th><th colspan="4">Affiliation</th></tr>
-              <tr><th></th><th></th><th scope="col">All</th><th scope="col">Villain</th><th scope="col">Hero</th><th scope="col">Neutral</th></tr></thead>
-              <tbody>
-              <tr><th rowspan="5">Faction</th><th scope="row">All</th><td><a href="/destiny/cards?">HTML</a></td><td><a href="/destiny/cards?affil=Villain">HTML</a></td><td><a href="/destiny/cards?affil=Hero">HTML</a></td><td><a href="/destiny/cards?affil=Neutral">HTML</a></td></tr>
-              <tr>
-
-              <th scope="row">Command</th>
-              <td><a href="/destiny/cards?fact=Command">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Villain&fact=Command">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Hero&fact=Command">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Neutral&fact=Command">HTML</a></td>
-              </tr>
-              <tr>
-
-              <th scope="row">Force</th>
-              <td><a href="/destiny/cards?fact=Force">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Villain&fact=Force">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Hero&fact=Force">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Neutral&fact=Force">HTML</a></td>
-              </tr>
-              <tr>
-
-              <th scope="row">Rogue</th>
-              <td><a href="/destiny/cards?fact=Rogue">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Villain&fact=Rogue">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Hero&fact=Rogue">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Neutral&fact=Rogue">HTML</a></td>
-              </tr>
-              <tr>
-
-              <th scope="row">General</th>
-              <td><a href="/destiny/cards?fact=General">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Villain&fact=General">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Hero&fact=General">HTML</a></td>
-              <td><a href="/destiny/cards?affil=Neutral&fact=General">HTML</a></td>
-              </tr>
-              </tbody>
-              </table>
-              </div>
-              <div id="reports">
-              <h4>Reports</h4>
-              <table>
-              {{#.}}
-              <tr><td>{{text}}</td><td><a href=\"/destiny/reports/{{key}}\">HTML</a></td></tr>
-              {{/.}}
-              </table>
-              </div>
-              </body>
-              </html>'''
+root_template = '''<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Destiny</title>
+    <style>
+      table,th,td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 3px;
+        text-align: center
+      }
+      td {text-align: left}
+    </style>
+  </head>
+  <body>
+    <div id="header">
+      <h1>Star Wars Destiny</h1>
+      <br>
+    </div>
+    <div id="cards">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th colspan="4">Affiliation</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th></th>
+           <th scope="col">All</th>
+           <th scope="col">Villain</th>
+           <th scope="col">Hero</th>
+           <th scope="col">Neutral</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th rowspan="5">Faction</th>
+            <th scope="row">All</th>
+            <td><a href="/destiny/cards?">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Villain">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Hero">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Neutral">HTML</a></td>
+          </tr>
+          <tr>
+            <th scope="row">Command</th>
+            <td><a href="/destiny/cards?fact=Command">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Villain&fact=Command">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Hero&fact=Command">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Neutral&fact=Command">HTML</a></td>
+            </tr>
+          <tr>
+            <th scope="row">Force</th>
+            <td><a href="/destiny/cards?fact=Force">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Villain&fact=Force">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Hero&fact=Force">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Neutral&fact=Force">HTML</a></td>
+            </tr>
+          <tr>
+            <th scope="row">Rogue</th>
+            <td><a href="/destiny/cards?fact=Rogue">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Villain&fact=Rogue">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Hero&fact=Rogue">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Neutral&fact=Rogue">HTML</a></td>
+          </tr>
+          <tr>
+            <th scope="row">General</th>
+            <td><a href="/destiny/cards?fact=General">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Villain&fact=General">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Hero&fact=General">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Neutral&fact=General">HTML</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="reports">
+      <h4>Reports</h4>
+      <table>
+        {{#.}}
+        <tr><td>{{text}}</td><td><a href=\"/destiny/reports/{{key}}\">HTML</a></td></tr>
+        {{/.}}
+      </table>
+    </div>
+  </body>
+</html>'''
 
 report_template = '''<!DOCTYPE html>
 <html lang="en">
