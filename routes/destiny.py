@@ -2,9 +2,10 @@ import sqlite3,pystache
 from flask import request
 
 def root():
+    faction_list = ["Command", "Force", "Rogue", "General"]
     report_list = list(map(lambda x : {"key" : x[0], "text" : x[1]["title"]}, report_dict.items()))
     report_list = sorted(report_list,key = lambda x: x["text"])
-    return pystache.render(root_template, report_list)
+    return pystache.render(root_template, {"faction_list" : faction_list, "report_list" : report_list})
 
 
 root_template = '''<!DOCTYPE html>
@@ -52,43 +53,24 @@ root_template = '''<!DOCTYPE html>
             <td><a href="/destiny/cards?affil=Hero">HTML</a></td>
             <td><a href="/destiny/cards?affil=Neutral">HTML</a></td>
           </tr>
+          {{#faction_list}}
           <tr>
-            <th scope="row">Command</th>
-            <td><a href="/destiny/cards?fact=Command">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Villain&fact=Command">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Hero&fact=Command">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Neutral&fact=Command">HTML</a></td>
-            </tr>
-          <tr>
-            <th scope="row">Force</th>
-            <td><a href="/destiny/cards?fact=Force">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Villain&fact=Force">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Hero&fact=Force">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Neutral&fact=Force">HTML</a></td>
-            </tr>
-          <tr>
-            <th scope="row">Rogue</th>
-            <td><a href="/destiny/cards?fact=Rogue">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Villain&fact=Rogue">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Hero&fact=Rogue">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Neutral&fact=Rogue">HTML</a></td>
+            <th scope="row">{{.}}</th>
+            <td><a href="/destiny/cards?fact={{.}}">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Villain&fact={{.}}">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Hero&fact={{.}}">HTML</a></td>
+            <td><a href="/destiny/cards?affil=Neutral&fact={{.}}">HTML</a></td>
           </tr>
-          <tr>
-            <th scope="row">General</th>
-            <td><a href="/destiny/cards?fact=General">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Villain&fact=General">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Hero&fact=General">HTML</a></td>
-            <td><a href="/destiny/cards?affil=Neutral&fact=General">HTML</a></td>
-          </tr>
+          {{/faction_list}}
         </tbody>
       </table>
     </div>
     <div id="reports">
       <h4>Reports</h4>
       <table>
-        {{#.}}
+        {{#report_list}}
         <tr><td>{{text}}</td><td><a href=\"/destiny/reports/{{key}}\">HTML</a></td></tr>
-        {{/.}}
+        {{/report_list}}
       </table>
     </div>
   </body>
