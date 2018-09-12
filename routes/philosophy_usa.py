@@ -41,8 +41,7 @@ root_template = '''
     </html>
            '''
 
-report_template = '''
-    <!DOCTYPE html>
+report_template = '''<!DOCTYPE html>
     <html lang="en">
       <head>
         <title>{{title}}</title>
