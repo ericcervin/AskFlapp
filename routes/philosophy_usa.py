@@ -42,33 +42,32 @@ root_template = '''
            '''
 
 report_template = '''<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <title>{{title}}</title>
-        <style>table,th,td {
+<html lang="en">
+  <head>
+    <title>{{title}}</title>
+    <style>table,th,td {
           border: 1px solid black;
           border-collapse: collapse;
           padding: 3px;
           text-align: center
        }
           td {text-align: left}
-        </style>
-      </head>
-      <body>
-        <h3>{{title}}</h3>
-        <table id = 'id_result_table'>
-          <thead>
-            <tr>{{#header}}<th>{{{.}}}</th>{{/header}}</tr>
-          </thead>
-          <tbody>
-           {{#results}}
-             <tr>{{#result}}<td>{{{.}}}</td>{{/result}}</tr>
-           {{/results}}
-          </tbody>
-        </table>
-      </body>
-    </html>
-    '''
+    </style>
+  </head>
+  <body>
+    <h3>{{title}}</h3>
+    <table id = 'id_result_table'>
+      <thead>
+        <tr>{{#header}}<th>{{{.}}}</th>{{/header}}</tr>
+      </thead>
+      <tbody>
+        {{#results}}
+        <tr>{{#result}}<td>{{{.}}}</td>{{/result}}</tr>
+        {{/results}}
+      </tbody>
+    </table>
+  </body>
+</html>'''
 
 def qry_html(qry_dict):
         conn = sqlite3.connect('./resources/philosophy-usa.db')
