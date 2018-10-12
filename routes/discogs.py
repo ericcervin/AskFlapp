@@ -34,10 +34,10 @@ root_template = '''
           </thead>
           <tbody>
             <tr>
-            <th>All</th><td><a href="/discogs/releases?sort=title">HTML</a></td>
-            <td><a href="/discogs/releases?sort=artist">HTML</a></td>
-            <td><a href="/discogs/releases?sort=label">HTML</a></td>
-            <td><a href="/discogs/releases?sort=year">HTML</a></td></tr>
+            <th>All</th><td><a href="/discogs/releases?sort=title,artist">HTML</a></td>
+            <td><a href="/discogs/releases?sort=artist,title">HTML</a></td>
+            <td><a href="/discogs/releases?sort=label,artist,title">HTML</a></td>
+            <td><a href="/discogs/releases?sort=year,artist,title">HTML</a></td></tr>
           </tbody>
        </table>
        </div>
@@ -87,13 +87,13 @@ def qry_html(qry_dict):
         return pystache.render(discogs_report_template,all_results)
    
 def releases():
-    sort = request.args.get("sort","artist")
+    sort = request.args.get("sort","artist,title")
     select_fields = "title, artist, label, year"
     select_from_clauses = "Select " + select_fields + " from release"
 
     if (sort is None) : qry_string = select_from_clauses
-    else:    qry_string = select_from_clauses + " order by \"" + sort + "\""
-
+    else:    qry_string = select_from_clauses + " order by " + sort
+    print(qry_string)
     header = ["Title", "Artist", "Label", "Release Year"]
     title = "Releases by {}".format(sort.title()) 
     return qry_html({"title": title, "header":header,"query":qry_string})
