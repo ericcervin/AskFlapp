@@ -93,7 +93,7 @@ def releases():
 
     if (sort is None) : qry_string = select_from_clauses
     else:    qry_string = select_from_clauses + " order by " + sort
-    print(qry_string)
+    #print(qry_string)
     header = ["Title", "Artist", "Label", "Release Year"]
     title = "Releases by {}".format(sort.title()) 
     return qry_html({"title": title, "header":header,"query":qry_string})
