@@ -131,7 +131,7 @@ def cards():
     ally = request.args.get("ally")
     ctype =  request.args.get("type")
     select_fields = "cardNumber, alliance, category,class, name, rarity"
-    select_from_clauses = "Select " + select_fields + " from card"
+    select_from_clauses = "Select " + select_fields + " from card  order by cardNumber"
     if      (ally is None) and (ctype is None): qry_string = select_from_clauses
     elif    (ally is None) and (ctype is not None): qry_string = select_from_clauses + " where category = \"" + ctype + "\" order by cardNumber"
     elif    (ally is not None) and (ctype is None): qry_string = select_from_clauses + " where alliance = \"" + ally + "\" order by cardNumber"
