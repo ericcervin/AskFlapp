@@ -1,6 +1,6 @@
 from flask import Flask,Response,request
 import sqlite3, pystache
-from routes import destiny, discogs, gematria, philosophy_usa, powerball, serialism
+from routes import destiny, discogs, gematria, philosophy_usa, powerball, serialism, wh_champions
 app = Flask(__name__)
 
 @app.route('/')
@@ -36,6 +36,7 @@ def index():
               <tr><td><a href="/philosophy">Philosophy</a></td><td>Philosophy degrees completed during the 2014-2015 academic year</td><td>12/23/2017</td></tr>
               <tr><td><a href="/powerball">Powerball</a></td><td>A source for Powerball numbers to play</td><td>N/A</td></tr>
               <tr><td><a href="/serialism">Serialism</a></td><td>Toying with set theory</td><td>N/A</td></tr>
+              <tr><td><a href="/wh_champions">Warhammer Champions</a></td><td>Warhammer Age of Sigmar: Champions card game data</td><td>11/26/2018</td></tr>
               </tbody>
               </table>
               </div>
@@ -70,6 +71,9 @@ app.add_url_rule('/powerball/html','powerball_res_html',powerball.res_html)
 app.add_url_rule('/serialism','serialism_root',serialism.root)
 app.add_url_rule('/serialism/rows/html','serialism_res_row_html',serialism.res_row_html)
 app.add_url_rule('/serialism/square/html','serialism_res_square_html',serialism.res_square_html)
+
+app.add_url_rule('/wh_champions','wh_champions_root',wh_champions.root)
+app.add_url_rule('/wh_champions/cards','wh_champions_cards',wh_champions.cards)
 
 @app.route('/robots.txt')
 def robots():
