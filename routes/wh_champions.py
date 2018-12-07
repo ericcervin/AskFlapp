@@ -24,50 +24,94 @@ root_template = '''<!DOCTYPE html>
       <h1>Warhammer Champions</h1>
       <br>
     </div>
-    <div id="cards">
-      <h4>Cards</h4>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th colspan="6">Alliance</th>
-          </tr>
-          <tr>
-            <th></th>
-            <th></th>
-            <th scope="col">All</th>
-            <th scope="col">Any</th>
-            <th scope="col">Chaos</th>
-            <th scope="col">Death</th>
-            <th scope="col">Destruction</th>
-            <th scope="col">Order</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th rowspan="6">Type</th>
-            <th scope="row">All</th>
-            <td><a href="/wh_champions/cards?">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Any">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Chaos">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Death">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Destruction">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Order">HTML</a></td>
-          </tr>
-          {{#types}}
-          <tr>
-            <th scope="row">{{.}}</th>
-            <td><a href="/wh_champions/cards?type={{.}}">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Any&amp;type={{.}}">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Chaos&amp;type={{.}}">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Death&amp;type={{.}}">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Destruction&amp;type={{.}}">HTML</a></td>
-            <td><a href="/wh_champions/cards?ally=Order&amp;type={{.}}">HTML</a></td>
-          </tr>
-          {{/types}}
-        </tbody>
-      </table>
+    <div id="cards">
+
+      <h4>Cards</h4>
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th></th>
+
+            <th></th>
+
+            <th colspan="6">Alliance</th>
+
+          </tr>
+
+          <tr>
+
+            <th></th>
+
+            <th></th>
+
+            <th scope="col">All</th>
+
+            <th scope="col">Any</th>
+
+            <th scope="col">Chaos</th>
+
+            <th scope="col">Death</th>
+
+            <th scope="col">Destruction</th>
+
+            <th scope="col">Order</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+
+            <th rowspan="6">Type</th>
+
+            <th scope="row">All</th>
+
+            <td><a href="/wh_champions/cards?">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Any">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Chaos">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Death">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Destruction">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Order">HTML</a></td>
+
+          </tr>
+
+          {{#types}}
+
+          <tr>
+
+            <th scope="row">{{.}}</th>
+
+            <td><a href="/wh_champions/cards?type={{.}}">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Any&amp;type={{.}}">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Chaos&amp;type={{.}}">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Death&amp;type={{.}}">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Destruction&amp;type={{.}}">HTML</a></td>
+
+            <td><a href="/wh_champions/cards?ally=Order&amp;type={{.}}">HTML</a></td>
+
+          </tr>
+
+          {{/types}}
+
+        </tbody>
+
+      </table>
+
     </div>
   </body>
 </html>'''
@@ -130,14 +174,15 @@ def qry_html(qry_dict):
 def cards():
     ally = request.args.get("ally")
     ctype =  request.args.get("type")
-    select_fields = "cardNumber, alliance, category,class, name, rarity"
-    select_from_clauses = "Select " + select_fields + " from card  order by cardNumber"
-    if      (ally is None) and (ctype is None): qry_string = select_from_clauses
-    elif    (ally is None) and (ctype is not None): qry_string = select_from_clauses + " where category = \"" + ctype + "\" order by cardNumber"
-    elif    (ally is not None) and (ctype is None): qry_string = select_from_clauses + " where alliance = \"" + ally + "\" order by cardNumber"
-    else:    qry_string = select_from_clauses + " where alliance = \"" + ally + "\" and category = \"" + ctype + "\" order by cardNumber"
+    select_fields = "setName, cardNumber, alliance, category,class, name, rarity"
+    select_from_clauses = "Select " + select_fields + " from card"
+    order_by_clause = " order by setNum, cardNumber"
+    if      (ally is None) and (ctype is None): qry_string = select_from_clauses + order_by_clause
+    elif    (ally is None) and (ctype is not None): qry_string = select_from_clauses + " where category = \"" + ctype + "\"" + order_by_clause
+    elif    (ally is not None) and (ctype is None): qry_string = select_from_clauses + " where alliance = \"" + ally + "\"" + order_by_clause
+    else:    qry_string = select_from_clauses + " where alliance = \"" + ally + "\" and category = \"" + ctype + "\"" + order_by_clause
 
-    header = ["Number", "Alliance", "Type","Class", "Name", "Rarity"]
+    header = ["Set", "Number", "Alliance", "Type","Class", "Name", "Rarity"]
 
     title = "{} {} Cards".format((ally or ""), (ctype or ""))
     

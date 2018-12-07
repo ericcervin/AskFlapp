@@ -36,7 +36,7 @@ def index():
               <tr><td><a href="/philosophy">Philosophy</a></td><td>Philosophy degrees completed during the 2014-2015 academic year</td><td>12/23/2017</td></tr>
               <tr><td><a href="/powerball">Powerball</a></td><td>A source for Powerball numbers to play</td><td>N/A</td></tr>
               <tr><td><a href="/serialism">Serialism</a></td><td>Toying with set theory</td><td>N/A</td></tr>
-              <tr><td><a href="/wh_champions">Warhammer Champions</a></td><td>Warhammer Age of Sigmar: Champions card game data</td><td>11/26/2018</td></tr>
+              <tr><td><a href="/wh_champions">Warhammer Champions</a></td><td>Warhammer Age of Sigmar: Champions card game data</td><td>12/06/2018</td></tr>
               </tbody>
               </table>
               </div>
