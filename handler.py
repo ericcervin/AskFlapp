@@ -30,7 +30,7 @@ def index():
               <table>
               <thead><tr><th scope="col">Resource</th><th scope="col">Description</th><th scope="col">Data Updated</th></tr></thead>
               <tbody>
-              <tr><td><a href="/destiny">Destiny</a></td><td>Star Wars Destiny card game data</td><td>07/12/2019</td></tr>
+              <tr><td><a href="/destiny">Destiny</a></td><td>Star Wars Destiny card game data</td><td>07/27/2019</td></tr>
               <tr><td><a href="/discogs">Discogs</a></td><td>Albums I've cataloged</td><td>12/23/2018</td></tr>
               <tr><td><a href="/gematria">Gematria</a></td><td>The numerical value of words</td><td>N/A</td></tr>
               <tr><td><a href="/philosophy">Philosophy</a></td><td>Philosophy degrees completed during the 2014-2015 academic year</td><td>12/23/2017</td></tr>
