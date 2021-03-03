@@ -23,7 +23,6 @@ def index():
               <p>A toy website to release some Python into the world.</p>
               <p>Though it's a toy, these are resources I use. (Except that I've quit playing Powerball)</p>
               <p><a href="https://github.com/ericcervin/AskFlapp">https://github.com/ericcervin/AskFlapp</a></p>
-              <p>There is a (twin) sister site written in Clojure: <a href = "http://ericervin.org">http://ericervin.org</a>
               <br>
               </div>
               <div id="resources">
