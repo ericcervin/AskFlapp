@@ -8,7 +8,7 @@ def index():
     return '''<!DOCTYPE html>
               <html lang="en">
               <head>
-              <title>Eric Ervin Dot Com</title>
+              <title>Eric Ervin</title>
               <style>table,th,td {
                                border: 1px solid black;
                                border-collapse: collapse;
@@ -19,7 +19,7 @@ def index():
               </head>
               <body>
               <div id="header">
-              <h1>Eric Ervin Dot Com</h1>
+              <h1>Eric Ervin</h1>
               <p>A toy website to release some Python into the world.</p>
               <p>Though it's a toy, these are resources I use. (Except that I've quit playing Powerball)</p>
               <p><a href="https://github.com/ericcervin/AskFlapp">https://github.com/ericcervin/AskFlapp</a></p>

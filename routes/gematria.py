@@ -63,7 +63,7 @@ gematria_word_template = '''
   <table id = 'id_other_word_table'>
   <tr><th>Word</th><th>Value</th></tr>
    {{#other_results}}
-   <tr>{{#result}}<td>{{.}}</td>{{/result}}</tr>
+   <tr>{{#result}}<td>{{{.}}}</td>{{/result}}</tr>
    {{/other_results}}
   </table>
   </div>
@@ -90,7 +90,7 @@ gematria_value_template = '''
       <tr>
       <th>Word</th><th>Value</th></tr>
       {{#results}}
-      <tr>{{#result}}<td>{{.}}</td>{{/result}}</tr>
+      <tr>{{#result}}<td>{{{.}}}</td>{{/result}}</tr>
       {{/results}}
       </table>
       </body>
@@ -140,6 +140,7 @@ def words():
 
     query = "Select word, wordvalue from gematria where wordvalue = \"" + str(wrd_map["total_value"]) + "\" and word != \"" + str(wrd_map["word"]) + "\" order by word"
     other_results = query_table(query)
+    other_results = list(map(insert_value_html,other_results))
     
     output_map = {"wrd_list" : word_list,
 
@@ -148,12 +149,19 @@ def words():
 
 
     return pystache.render(gematria_word_template,output_map)
+
+def insert_value_html(mp):
+    tupple = mp["result"]
+    return {"result": ('<A HREF =\"./search?word=' + tupple[0] + '\">' + tupple[0] +'</A>' ,tupple[1]) }
     
 def values():
     value = request.args.get("value")
 
     query = "Select word, wordvalue from gematria where wordvalue = \"" + str(value) + "\" order by word"
     results = query_table(query)
-    output_map = {"results" : results} 
-
+    new_results = list(map(insert_value_html,results))
+    #new_results = {"results" : new_results} 
+    #print(new_results)
+    output_map = {"results" : new_results} 
+    #print(output_map)
     return pystache.render(gematria_value_template,output_map)
